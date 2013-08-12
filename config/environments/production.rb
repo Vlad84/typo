@@ -9,6 +9,8 @@ TypoBlog::Application.configure do
   config.consider_all_requests_local = false
   config.action_controller.perform_caching             = false
 
+  config.active_support.deprecation = :notify
+
   # See everything in the log (default is :info)
   # config.log_level = :debug
 
@@ -30,5 +32,5 @@ TypoBlog::Application.configure do
   Migrator.offer_migration_when_available            = true
 
   config.logger = Logger.new(STDOUT)
-  config.logger.level = Logger.const_get(([ENV['LOG_LEVEL'].to_s.upcase, "INFO"] & %w[DEBUG INFO WARN ERROR FATAL UNKNOWN]).compact.first)
+  config.logger.level = Logger.const_get(([ENV['LOG_LEVEL'].to_s.upcase, "DEBUG"] & %w[DEBUG INFO WARN ERROR FATAL UNKNOWN]).compact.first)
 end

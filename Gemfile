@@ -23,7 +23,8 @@ group :production do
   gem 'pg'
 end
 
-source :rubygems
+source 'http://rubygems.org'
+
 
 gem 'thin'
 gem 'rails', '~> 3.0.10'
@@ -45,7 +46,7 @@ gem 'acts_as_tree_rails3'
 gem 'recaptcha', :require => 'recaptcha/rails', :branch => 'rails3'
 
 group :development, :test do
-  gem 'ruby-debug19'
+  gem 'debugger'
   gem 'factory_girl', '~> 2.2'
   gem 'webrat'
   gem 'rspec-rails', '~> 2.0'
