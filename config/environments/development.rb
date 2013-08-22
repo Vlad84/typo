@@ -25,4 +25,9 @@ TypoBlog::Application.configure do
   end
 
   config.log_level = :debug
+
+  silence_warnings do
+    require 'pry'
+    IRB = Pry
+  end
 end

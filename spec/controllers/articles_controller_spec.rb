@@ -32,6 +32,40 @@ describe ArticlesController do
     response.should redirect_to(tags_path)
   end
 
+# add merge spec
+  describe 'merge aciton' do
+      before :each do 
+        @merged_article = mock('article') 
+
+      end
+
+      let(:user) { Factory.create(:user) }
+      let(:user2) { Factory.create(:user) }
+      let(:article1) { Factory.create(:article, :title => "Hello", :user => user, :body => "Hallo mein") }
+      let(:article2) { Factory.create(:article, :title => "Hello", :user => user2, :body => "schatz")}
+      
+    it "should call the model method merge" do
+      Article.should_receive(:merge_with).with("1", "2")
+      post :merge, {:id => "1", :with => "2"} 
+    end
+
+    it "should render a template" do
+      Article.stub(:merge_with)
+      post :merge, {:id => "1", :with => "2" }
+      response.should redirect_to(root_path)
+    end
+
+    it "should make results available for the view" do
+      fake_results = [mock('Article')]
+      Article.stub(:merge_with).and_return(fake_results)
+      post :merge, { :id => "1", :with => "2" }
+      assigns(:articles).should == fake_results
+    end
+
+end
+#end
+
+
   describe 'index action' do
     before :each do
       Factory.create(:article)

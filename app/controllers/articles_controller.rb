@@ -11,6 +11,18 @@ class ArticlesController < ContentController
   }
 
   helper :'admin/base'
+  
+  # Add merge method 
+  def merge
+    @current_article_id = params[:id]
+    @article_to_merge_id = params[:merge_with]
+    article = Article.merge_with(@current_article_id, @article_to_merge_id) 
+    @articles = Article.all
+    flash[:notice] = "Your articels have been merged"
+    redirect_to root_path
+  end
+
+  # end merge
 
   def index
     respond_to do |format|

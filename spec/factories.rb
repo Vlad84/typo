@@ -56,6 +56,7 @@ Factory.define :article do |a|
   a.published_at '2005-01-01 02:00:00'
   a.updated_at { Factory.next(:time) }
   a.user { some_user }
+  a.author '1'
   a.allow_comments true
   a.published true
   a.allow_pings true

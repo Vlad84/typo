@@ -67,6 +67,24 @@ describe Article do
     end
   end
 
+  # article model spec hw5
+  describe "merge_with behavior" do
+    let!(:article1) { Factory.create(:article, :title => "Hello", :author => "Me", :body => "Hallo mein") }
+    let!(:article2) { Factory.create(:article, :title => "Hello", :author => "You", :body => "schatz")}
+
+    it 'should find the articles' do
+      article = Article.find_by_id('1')
+      article.should_not be_blank 
+    end
+
+    it 'create new article' do
+      article_merge = Article.create!(:title => article1.title, :author => article1.author, 
+                                :body => (article1.body + article2.body))
+      article_merge.should_not be_blank
+    end
+
+  end
+
   it "test_edit_url" do
     a = stub_model(Article, :id => 123)
     assert_equal "http://myblog.net/admin/content/edit/#{a.id}", a.edit_url

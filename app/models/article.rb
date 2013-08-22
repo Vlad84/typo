@@ -46,7 +46,7 @@ class Article < Content
   has_and_belongs_to_many :tags
 
   before_create :set_defaults, :create_guid
-  after_create :add_notifications
+  after_create :add_notifications 
   before_save :set_published_at, :ensure_settings_type, :set_permalink
   after_save :post_trigger, :keywords_to_tags, :shorten_url
 
@@ -60,6 +60,31 @@ class Article < Content
   scope :published_at, lambda {|time_params| { :conditions => { :published => true, :published_at => Article.time_delta(*time_params) }, :order => 'published_at DESC' } }
 
   setting :password,                   :string, ''
+
+
+  # Add merge method 
+  def self.merge_with(article1_id, article2_id)
+    
+    article1 = Article.find_by_id(article1_id)
+    article2 = Article.find_by_id(article2_id) 
+
+    comments = article1.comments + article2.comments
+    article_merged = self.create!(:title => article1.title, :author => article1.author, 
+                                :body => (article1.body + " " + article2.body),
+                                :published => true, :user_id => article1.user_id)
+    
+    self.destroy(article1_id)
+    self.destroy(article2_id)
+
+    comments.each do |comment| 
+      article_merged.comments.build(:body => comment.body, :author => comment.author)
+      article_merged.save 
+    end
+    
+    article_merged 
+  end
+  # end
+
 
   def initialize(*args)
     super
