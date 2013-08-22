@@ -148,22 +148,7 @@
     </ul>
   </div>
 
-<!-- Add Merge articles form for HW5 !-->
-<% if @current_user.admin? && !(request.request_uri.include?("new"))%>
-  <%= form_tag("/articles/merge/#{@article.id}", method: "post") do %>
-    <div id=''>
-      <h3><%= _("Merge Articles")%></h3>
-      <div class='control-group'>
-        <%= label_tag "Article ID" %>
-        <%= text_field :post, :merge, :name => "merge_with"%>    
-      </div>
-      <div class='form-actions'>
-        <input type='submit' id='form-submit-button' class='btn btn-info' value="<%= _('Merge') %>"  />
-      </div>
-    </div>
-  <% end %>
-<% end %>
-<!-- End Merge articles form for HW5 !-->
+
 
   </div>
 
