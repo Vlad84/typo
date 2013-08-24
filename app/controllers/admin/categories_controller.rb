@@ -23,9 +23,16 @@ class Admin::CategoriesController < Admin::BaseController
 
   private
 
+# Changed VZ:
   def new_or_edit
     @categories = Category.find(:all)
-    @category = Category.find(params[:id])
+    id = params[:id]
+    if id != nil
+      @category = Category.find(id)
+    else
+      @category = Category.new
+    end  
+    #@category = Category.find("1")
     @category.attributes = params[:category]
     if request.post?
       respond_to do |format|

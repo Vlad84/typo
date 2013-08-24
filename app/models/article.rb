@@ -67,22 +67,23 @@ class Article < Content
     
     article1 = Article.find_by_id(article1_id)
     article2 = Article.find_by_id(article2_id) 
-    
+    if  !(article1.nil? and article2.nil?) 
+        comments = article1.comments + article2.comments
+        article_merged = self.create!(:title => article1.title, :author => article1.author, 
+                                    :body => (article1.body + " " + article2.body),
+                                    :published => true, :user_id => article1.user_id)
 
-    comments = article1.comments + article2.comments
-    article_merged = self.create!(:title => article1.title, :author => article1.author, 
-                                :body => (article1.body + " " + article2.body),
-                                :published => true, :user_id => article1.user_id)
-
-    self.destroy(article1_id)
-    self.destroy(article2_id)
-  
-    comments.each do |comment| 
-      article_merged.comments.build(:body => comment.body, :author => comment.author)
-      article_merged.save 
+        self.destroy(article1_id)
+        self.destroy(article2_id)
+      
+        comments.each do |comment| 
+          article_merged.comments.build(:body => comment.body, :author => comment.author)
+          article_merged.save 
+        end
+        
+        article_merged 
     end
-    
-    article_merged 
+
   end
   # end
 
